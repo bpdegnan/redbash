@@ -1,0 +1,9 @@
+curl
+tcl
+autoconf
+automake
+libtool
+pkg-config
+gettext
+perl
+libssl-dev
