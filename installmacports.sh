@@ -20,7 +20,7 @@ else
     ./configure --prefix=$PRIVATE_DIR
     make
     if [ $? -ne 0 ]; then
-        echo "Error: make  automake failed. "
+        echo "Error: make automake failed. "
         exit 1
     fi
     make install
