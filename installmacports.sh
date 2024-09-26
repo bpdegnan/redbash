@@ -10,6 +10,22 @@ mkdir -p "$PRIVATE_TMP"
 
 
 #now to go through things that might not be in linux
+if command -v aclocal >/dev/null 2>&1; then
+    echo "alocal found"
+else
+    echo "aclocal is not installed, so installing automake"
+    cd $SCRIPT_DIR/src/automake
+    tar zxvf automake-1.16.5.tar.gz
+    cd automake-1.16.5
+    ./configure --prefix=$PRIVATE_DIR
+    make
+    if [ $? -ne 0 ]; then
+        echo "Error: make  automake failed. "
+        exit 1
+    fi
+    make install
+fi
+
 
 if command -v mtree >/dev/null 2>&1; then
     echo "mtree found"
