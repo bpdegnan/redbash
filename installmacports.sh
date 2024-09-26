@@ -11,6 +11,26 @@ mkdir -p "$PRIVATE_TMP"
 
 #now to go through things that might not be in the corporate linux
 
+
+
+
+#I need m4 to make autoconf
+if command -v m4 >/dev/null 2>&1; then
+    echo "m4 found"
+else
+    echo "m4 is not installed, so installing m4"
+    cd $SCRIPT_DIR/src/m4
+    tar zxvf m4-1.4.19.tar.gz
+    cd m4-1.4.19
+    ./configure --prefix=$PRIVATE_DIR
+    make
+    if [ $? -ne 0 ]; then
+        echo "Error: make m4 failed. "
+        exit 1
+    fi
+    make install
+fi
+
 #I need autoconf to make automake
 if command -v autoconf >/dev/null 2>&1; then
     echo "autoconf found"
