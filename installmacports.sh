@@ -11,7 +11,25 @@ mkdir -p "$PRIVATE_TMP"
 cd $PRIVATE_TMP
 git clone https://github.com/macports/macports-base.git
 cd macports-base
-./configure --prefix=$PRIVATE_MACPORTS && make && make install
+
+# Run configure and check its exit status
+./configure --prefix=$PRIVATE_MACPORTS 
+if [ $? -ne 0 ]; then
+    echo "Error: configure failed. Please see the above for errors"
+    exit 1
+fi
+
+# Run make and check its exit status
+make
+if [ $? -ne 0 ]; then
+    echo "Error: make failed. "
+    exit 1
+fi
+make install
+if [ $? -ne 0 ]; then
+    echo "Error: make failed to install. "
+    exit 1
+fi
 
 
 # Create directories based on the PRIVATE_MACPORTS variable
