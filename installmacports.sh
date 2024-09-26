@@ -1,13 +1,34 @@
 #!/bin/bash
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Set the base directory (you can change this variable)
 PRIVATE_DIR="$HOME/private"
 PRIVATE_MACPORTS="$PRIVATE_DIR/opt"
-
-
 # Create directories based on the PRIVATE_DIR variable
 PRIVATE_TMP="$PRIVATE_DIR/var/tmp"
 mkdir -p "$PRIVATE_TMP"
+
+
+#now to go through things that might not be in linux
+
+if command -v mtree >/dev/null 2>&1; then
+    echo "mtree found"
+else
+    echo "mtree is not installed"
+    cd $SCRIPT_DIR/src/mtree
+    ./autogen.sh
+    ./configure --prefix=$PRIVATE_DIR
+    make
+    if [ $? -ne 0 ]; then
+        echo "Error: make mtree failed. "
+        exit 1
+    fi
+    make install
+fi
+
+
+
+
 cd $PRIVATE_TMP
 git clone https://github.com/macports/macports-base.git
 cd macports-base
