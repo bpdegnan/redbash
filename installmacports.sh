@@ -66,8 +66,6 @@ else
 fi
 
 
-
-
 if command -v mtree >/dev/null 2>&1; then
     echo "mtree found"
 else
@@ -83,7 +81,39 @@ else
     make install
 fi
 
+curl-config
 
+if command -v curl-config >/dev/null 2>&1; then
+    echo "curl-config found"
+else
+    echo "curl-config is not installed, so installing curl"
+    
+    #first, get bear ssl
+    cd $SCRIPT_DIR/src/bearssl
+    TAR_FILE=$(ls *.tar.gz *.tgz 2>/dev/null | head -n 1)
+    if [ -z "$TAR_FILE" ]; then
+        echo "Error: No tar file found."
+        exit 1
+    fi
+    tar zxvf $TAR_FILE
+    DIR_NAME=$(basename "$TAR_FILE" .tar.gz)
+    cd "$DIR_NAME"
+    
+    make
+    if [ $? -ne 0 ]; then
+        echo "Error: make $TAR_FILE failed."
+        exit 1
+    fi
+
+    mkdir -p $PRIVATE_DIR/usr/local/include/bearssl
+    mkdir -p $PRIVATE_DIR/usr/local/lib
+    cp inc/*.h $PRIVATE_DIR/usr/local/include/bearssl
+    cp build/libbearssl.a $PRIVATE_DIR/usr/local/lib
+
+
+fi
+
+exit 0
 
 
 cd $PRIVATE_TMP
