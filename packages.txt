@@ -7,3 +7,5 @@ pkg-config
 gettext
 perl
 libssl-dev
+git
+
