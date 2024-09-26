@@ -9,7 +9,8 @@ PRIVATE_TMP="$PRIVATE_DIR/var/tmp"
 mkdir -p "$PRIVATE_TMP"
 
 
-#now to go through things that might not be in linux
+#now to go through things that might not be in the corporate linux
+#automake
 if command -v aclocal >/dev/null 2>&1; then
     echo "alocal found"
 else
@@ -25,6 +26,23 @@ else
     fi
     make install
 fi
+#I need autoconf as well
+if command -v autoconf >/dev/null 2>&1; then
+    echo "autoconf found"
+else
+    echo "autoconf is not installed, so installing autoconf"
+    cd $SCRIPT_DIR/src/autoconf
+    tar zxvf autoconf-2.71.tar.gz
+    cd autoconf-2.71
+    ./configure --prefix=$PRIVATE_DIR
+    make
+    if [ $? -ne 0 ]; then
+        echo "Error: make autoconf failed. "
+        exit 1
+    fi
+    make install
+fi
+
 
 
 if command -v mtree >/dev/null 2>&1; then
