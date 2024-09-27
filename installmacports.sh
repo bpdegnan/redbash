@@ -120,8 +120,8 @@ else
     tar zxvf $TAR_FILE
     DIR_NAME=$(basename "$TAR_FILE" .tar.gz)
     cd "$DIR_NAME"
-    
-    ./configure --with-bearssl=$PRIVATE_DIR/usr/local --prefix=$PRIVATE_DIR/usr/local
+    #don't know why it didn't work with theprefix 
+    CPPFLAGS="-I/$PRIVATE_DIR/usr/local/include/bearssl"  ./configure --with-bearssl=$PRIVATE_DIR/usr/local --prefix=$PRIVATE_DIR/usr/local
 
     make
     if [ $? -ne 0 ]; then
