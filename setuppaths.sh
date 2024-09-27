@@ -23,7 +23,7 @@ else
     echo "$PRIVATE_DIR/bin is already in your PATH."
 fi
 
-# Add $PRIVATE_DIR/bin to PATH at the beginning if it's not already there
+# Add $PRIVATE_DIR/usr/local/bin to PATH at the beginning if it's not already there
 if ! grep -q "export PATH=\"$PRIVATE_DIR/usr/local/bin:\$PATH\"" "$shell_config"; then
     echo "export PATH=\"$PRIVATE_DIR/usr/local/bin:\$PATH\"" >> "$shell_config"
     echo "Added $PRIVATE_DIR/usr/local/bin to the beginning of PATH in $shell_config"
