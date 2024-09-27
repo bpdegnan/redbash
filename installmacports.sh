@@ -128,6 +128,7 @@ else
         echo "Error: make $TAR_FILE failed."
         exit 1
     fi
+    make install
 
 fi
 
