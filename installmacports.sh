@@ -131,8 +131,7 @@ else
 
 fi
 
-exit 0
-
+#now on to macports
 
 cd $PRIVATE_TMP
 git clone https://github.com/macports/macports-base.git
