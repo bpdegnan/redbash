@@ -139,7 +139,7 @@ git clone https://github.com/macports/macports-base.git
 cd macports-base
 
 # Run configure and check its exit status
-./configure --prefix=$PRIVATE_MACPORTS 
+CFLAGS="-I/$PRIVATE_DIR/usr/local/include" LDFLAGS="-L/$PRIVATE_DIR/usr/local/lib" ./configure --prefix=$PRIVATE_MACPORTS 
 if [ $? -ne 0 ]; then
     echo "Error: configure failed. Please see the above for errors"
     exit 1
