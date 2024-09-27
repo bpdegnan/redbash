@@ -110,6 +110,24 @@ else
     cp inc/*.h $PRIVATE_DIR/usr/local/include/bearssl
     cp build/libbearssl.a $PRIVATE_DIR/usr/local/lib
 
+    #now curl
+    cd $SCRIPT_DIR/src/curl
+    TAR_FILE=$(ls *.tar.gz *.tgz 2>/dev/null | head -n 1)
+    if [ -z "$TAR_FILE" ]; then
+        echo "Error: No tar file found."
+        exit 1
+    fi
+    tar zxvf $TAR_FILE
+    DIR_NAME=$(basename "$TAR_FILE" .tar.gz)
+    cd "$DIR_NAME"
+    
+    ./configure --with-bearssl=$PRIVATE_DIR/usr/local --prefix=$PRIVATE_DIR/usr/local
+
+    make
+    if [ $? -ne 0 ]; then
+        echo "Error: make $TAR_FILE failed."
+        exit 1
+    fi
 
 fi
 
