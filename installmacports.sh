@@ -151,7 +151,8 @@ if [ $? -ne 0 ]; then
     echo "Error: make failed. "
     exit 1
 fi
-make install
+#the user needs an overide so it doesn't try it as root
+make install DSTUSR=$(whoami) DSTGRP=$(id -gn) DSTMODE=0755 
 if [ $? -ne 0 ]; then
     echo "Error: make failed to install. "
     exit 1
