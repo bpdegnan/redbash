@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Set the base directory (you can change this variable)
 PRIVATE_DIR="$HOME/private"
