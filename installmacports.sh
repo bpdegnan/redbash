@@ -89,6 +89,15 @@ if command -v mtree >/dev/null 2>&1; then
 else
     echo "mtree is not installed"
     cd $SCRIPT_DIR/src/mtree
+    TAR_FILE=$(ls *.tar.gz *.tgz 2>/dev/null | head -n 1)
+    if [ -z "$TAR_FILE" ]; then
+        echo "Error: No tar file found."
+        exit 1
+    fi
+    tar zxvf $TAR_FILE
+    DIR_NAME=$(basename "$TAR_FILE" .tar.gz)
+    cd "$DIR_NAME"    
+    
     ./autogen.sh
     ./configure --prefix=$PRIVATE_DIR
     make
