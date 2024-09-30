@@ -20,8 +20,14 @@ if command -v m4 >/dev/null 2>&1; then
 else
     echo "m4 is not installed, so installing m4"
     cd $SCRIPT_DIR/src/m4
-    tar zxvf m4-1.4.19.tar.gz
-    cd m4-1.4.19
+    TAR_FILE=$(ls *.tar.gz *.tgz 2>/dev/null | head -n 1)
+    if [ -z "$TAR_FILE" ]; then
+        echo "Error: No tar file found."
+        exit 1
+    fi
+    tar zxvf $TAR_FILE
+    DIR_NAME=$(basename "$TAR_FILE" .tar.gz)
+    cd "$DIR_NAME"
     ./configure --prefix=$PRIVATE_DIR
     make
     if [ $? -ne 0 ]; then
@@ -37,8 +43,14 @@ if command -v autoconf >/dev/null 2>&1; then
 else
     echo "autoconf is not installed, so installing autoconf"
     cd $SCRIPT_DIR/src/autoconf
-    tar zxvf autoconf-2.71.tar.gz
-    cd autoconf-2.71
+    TAR_FILE=$(ls *.tar.gz *.tgz 2>/dev/null | head -n 1)
+    if [ -z "$TAR_FILE" ]; then
+        echo "Error: No tar file found."
+        exit 1
+    fi
+    tar zxvf $TAR_FILE
+    DIR_NAME=$(basename "$TAR_FILE" .tar.gz)
+    cd "$DIR_NAME"
     ./configure --prefix=$PRIVATE_DIR
     make
     if [ $? -ne 0 ]; then
@@ -54,8 +66,14 @@ if command -v aclocal >/dev/null 2>&1; then
 else
     echo "aclocal is not installed, so installing automake"
     cd $SCRIPT_DIR/src/automake
-    tar zxvf automake-1.16.5.tar.gz
-    cd automake-1.16.5
+    TAR_FILE=$(ls *.tar.gz *.tgz 2>/dev/null | head -n 1)
+    if [ -z "$TAR_FILE" ]; then
+        echo "Error: No tar file found."
+        exit 1
+    fi
+    tar zxvf $TAR_FILE
+    DIR_NAME=$(basename "$TAR_FILE" .tar.gz)
+    cd "$DIR_NAME"
     ./configure --prefix=$PRIVATE_DIR
     make
     if [ $? -ne 0 ]; then
@@ -81,7 +99,6 @@ else
     make install
 fi
 
-curl-config
 
 if command -v curl-config >/dev/null 2>&1; then
     echo "curl-config found"

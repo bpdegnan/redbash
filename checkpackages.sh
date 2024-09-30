@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 # Function to determine which package manager is available
 get_package_manager() {
