@@ -10,4 +10,6 @@ Secondly, paths are challenging, and for this reason there's a structure of:
       
 The private directory has untilties that are required to build macports, and macports is installed into opt.
 
+In order to install the packages, clone this repository and then run ./setuppaths.sh followed by installmacports.sh.  You can then do a "port selfupdate"  You need to sort out the bsdsed to run as sed because I've been unable to pull that off without root access still; however, you can do the following to prove things are working:
 
+    port -v install libffi
