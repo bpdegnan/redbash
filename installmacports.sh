@@ -158,6 +158,25 @@ else
 
 fi
 
+#bsdsed is a port that I did to support strict BSD compatibility
+if command -v bsdsed >/dev/null 2>&1; then
+    echo "bsdsed found"
+else
+    echo "bsdsed is not installed"
+    cd $SCRIPT_DIR/src/
+    git clone https://github.com/bpdegnan/bsdsed.git
+    cd $SCRIPT_DIR/src/bsdsed   
+    ./autogen.sh
+    ./configure --prefix=$PRIVATE_DIR
+    make
+    if [ $? -ne 0 ]; then
+        echo "Error: make mtree failed. "
+        exit 1
+    fi
+    make install
+fi
+
+
 #now on to macports
 
 cd $PRIVATE_TMP
