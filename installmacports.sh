@@ -26,7 +26,14 @@ else
         exit 1
     fi
     tar zxvf $TAR_FILE
-    DIR_NAME=$(basename "$TAR_FILE" .tar.gz)
+    if [[ "$TAR_FILE" == *.tar.gz ]]; then
+       DIR_NAME=$(basename "$TAR_FILE" .tar.gz)
+    elif [[ "$TAR_FILE" == *.tgz ]]; then
+        DIR_NAME=$(basename "$TAR_FILE" .tgz)
+    else
+    echo "Unsupported file format. Only .tar.gz and .tgz are supported."
+        exit 1
+    fi
     cd "$DIR_NAME"
     ./configure --prefix=$PRIVATE_DIR
     make
@@ -49,7 +56,14 @@ else
         exit 1
     fi
     tar zxvf $TAR_FILE
-    DIR_NAME=$(basename "$TAR_FILE" .tar.gz)
+    if [[ "$TAR_FILE" == *.tar.gz ]]; then
+       DIR_NAME=$(basename "$TAR_FILE" .tar.gz)
+    elif [[ "$TAR_FILE" == *.tgz ]]; then
+        DIR_NAME=$(basename "$TAR_FILE" .tgz)
+    else
+    echo "Unsupported file format. Only .tar.gz and .tgz are supported."
+        exit 1
+    fi
     cd "$DIR_NAME"
     ./configure --prefix=$PRIVATE_DIR
     make
@@ -72,7 +86,14 @@ else
         exit 1
     fi
     tar zxvf $TAR_FILE
-    DIR_NAME=$(basename "$TAR_FILE" .tar.gz)
+    if [[ "$TAR_FILE" == *.tar.gz ]]; then
+       DIR_NAME=$(basename "$TAR_FILE" .tar.gz)
+    elif [[ "$TAR_FILE" == *.tgz ]]; then
+        DIR_NAME=$(basename "$TAR_FILE" .tgz)
+    else
+    echo "Unsupported file format. Only .tar.gz and .tgz are supported."
+        exit 1
+    fi
     cd "$DIR_NAME"
     ./configure --prefix=$PRIVATE_DIR
     make
@@ -95,7 +116,14 @@ else
         exit 1
     fi
     tar zxvf $TAR_FILE
-    DIR_NAME=$(basename "$TAR_FILE" .tar.gz)
+    if [[ "$TAR_FILE" == *.tar.gz ]]; then
+       DIR_NAME=$(basename "$TAR_FILE" .tar.gz)
+    elif [[ "$TAR_FILE" == *.tgz ]]; then
+        DIR_NAME=$(basename "$TAR_FILE" .tgz)
+    else
+    echo "Unsupported file format. Only .tar.gz and .tgz are supported."
+        exit 1
+    fi
     cd "$DIR_NAME"    
     
     ./autogen.sh
@@ -122,7 +150,14 @@ else
         exit 1
     fi
     tar zxvf $TAR_FILE
-    DIR_NAME=$(basename "$TAR_FILE" .tar.gz)
+    if [[ "$TAR_FILE" == *.tar.gz ]]; then
+       DIR_NAME=$(basename "$TAR_FILE" .tar.gz)
+    elif [[ "$TAR_FILE" == *.tgz ]]; then
+        DIR_NAME=$(basename "$TAR_FILE" .tgz)
+    else
+    echo "Unsupported file format. Only .tar.gz and .tgz are supported."
+        exit 1
+    fi
     cd "$DIR_NAME"
     
     make
@@ -144,7 +179,14 @@ else
         exit 1
     fi
     tar zxvf $TAR_FILE
-    DIR_NAME=$(basename "$TAR_FILE" .tar.gz)
+    if [[ "$TAR_FILE" == *.tar.gz ]]; then
+       DIR_NAME=$(basename "$TAR_FILE" .tar.gz)
+    elif [[ "$TAR_FILE" == *.tgz ]]; then
+        DIR_NAME=$(basename "$TAR_FILE" .tgz)
+    else
+    echo "Unsupported file format. Only .tar.gz and .tgz are supported."
+        exit 1
+    fi
     cd "$DIR_NAME"
     #don't know why it didn't work with theprefix 
     CPPFLAGS="-I/$PRIVATE_DIR/usr/local/include/bearssl"  ./configure --with-bearssl=$PRIVATE_DIR/usr/local --prefix=$PRIVATE_DIR/usr/local
