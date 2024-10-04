@@ -224,6 +224,7 @@ fi
 cd $PRIVATE_TMP
 git clone https://github.com/macports/macports-base.git
 cd macports-base
+git checkout v2.10.2
 
 # Run configure and check its exit status
 CFLAGS="-I/$PRIVATE_DIR/usr/local/include -I/$PRIVATE_DIR/usr/local/include/curl" LDFLAGS="-L/$PRIVATE_DIR/usr/local/lib" ./configure --prefix=$PRIVATE_MACPORTS --without-startupitems
