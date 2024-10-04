@@ -222,9 +222,18 @@ fi
 #now on to macports
 
 cd $PRIVATE_TMP
-git clone https://github.com/macports/macports-base.git
-cd macports-base
-git checkout v2.10.2
+if [ -d "macports-base" ]; then
+  echo "Directory macports-base already exists. Skipping git clone."
+  cd macports-base
+  git fetch  # Update remote refs
+  git checkout v2.10.2
+else
+  git clone https://github.com/macports/macports-base.git
+  cd macports-base
+  git checkout v2.10.2
+fi
+
+
 
 # Run configure and check its exit status
 CFLAGS="-I/$PRIVATE_DIR/usr/local/include -I/$PRIVATE_DIR/usr/local/include/curl" LDFLAGS="-L/$PRIVATE_DIR/usr/local/lib" ./configure --prefix=$PRIVATE_MACPORTS --without-startupitems
