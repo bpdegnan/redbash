@@ -1,8 +1,8 @@
 redbash is userland macports with the target of RHEL.
 
-redbash is an attempt to install [macports](https://www.macports.org/), which is for macos but can be installed with root on [Ubuntu] (https://trac.macports.org/wiki/InstallingMacPortsOnUbuntuLinux), as a userland package on RHEL where one does not have root access.  
+redbash is an attempt to install [macports](https://www.macports.org/), which is for macos but can be installed with root on [Ubuntu] (https://trac.macports.org/wiki/InstallingMacPortsOnUbuntuLinux), as a userland package on RHEL where one does not have root access.  This is achieved by building all of the support utilites that are required to compile macports, which are all inherently BSD.
 
-Firstly, bsd has a different sed, and for that reason I've done a port of BSD's sed as [bsdsed](https://github.com/bpdegnan/bsdsed). 
+Firstly, BSD has a different sed, and for that reason I've done a port of BSD's sed as [bsdsed](https://github.com/bpdegnan/bsdsed). 
 
 Secondly, paths are challenging, and for this reason there's a structure of:
     
