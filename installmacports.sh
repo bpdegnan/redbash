@@ -200,6 +200,34 @@ else
 
 fi
 
+
+    cd $SCRIPT_DIR/src/openssl
+    TAR_FILE=$(ls *.tar.gz *.tgz 2>/dev/null | head -n 1)
+    if [ -z "$TAR_FILE" ]; then
+        echo "Error: No tar file found."
+        exit 1
+    fi
+    tar zxvf $TAR_FILE
+    if [[ "$TAR_FILE" == *.tar.gz ]]; then
+       DIR_NAME=$(basename "$TAR_FILE" .tar.gz)
+    elif [[ "$TAR_FILE" == *.tgz ]]; then
+        DIR_NAME=$(basename "$TAR_FILE" .tgz)
+    else
+    echo "Unsupported file format. Only .tar.gz and .tgz are supported."
+        exit 1
+    fi
+    cd "$DIR_NAME"    
+    
+    ./Configure no-shared --prefix=$PRIVATE_DIR/usr/local
+    make
+    if [ $? -ne 0 ]; then
+        echo "Error: make $TAR_FILE failed. "
+        exit 1
+    fi
+    make install
+
+
+
 #bsdsed is a port that I did to support strict BSD compatibility
 if command -v bsdsed >/dev/null 2>&1; then
     echo "bsdsed found"

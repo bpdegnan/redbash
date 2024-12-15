@@ -12,6 +12,12 @@ Secondly, paths are challenging, and for this reason there's a structure of:
       
 The private directory has untilties that are required to build macports, and macports is installed into opt.
 
-In order to install the packages, clone this repository and then run ./setuppaths.sh followed by installmacports.sh.  You can then do a "port selfupdate"  You need to sort out the bsdsed to run as sed because I've been unable to pull that off without root access still; however, you can do the following to prove things are working:
+In order to get the package, I generally run: 
+
+	wget https://github.com/bpdegnan/redbash/archive/refs/heads/main.zip -O redbash-main.zip
+
+
+
+In order to install the packages, clone this repository and then run ./setuppaths.sh.  You will need logout and back in to update the paths, or rerun your shell.  Next run installmacports.sh to try to build things.  You can then do a "port selfupdate"  You need to sort out the bsdsed to run as sed because I've been unable to pull that off without root access still; however, you can do the following to prove things are working:
 
     port -v install libffi
