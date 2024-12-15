@@ -264,7 +264,7 @@ fi
 
 
 # Run configure and check its exit status
-CFLAGS="-I/$PRIVATE_DIR/usr/local/include -I/$PRIVATE_DIR/usr/local/include/curl" LDFLAGS="-L/$PRIVATE_DIR/usr/local/lib" ./configure --prefix=$PRIVATE_MACPORTS --without-startupitems
+CFLAGS="-I/$PRIVATE_DIR/usr/local/include -I/$PRIVATE_DIR/usr/local/include/curl" LDFLAGS="-L/$PRIVATE_DIR/usr/local/lib -L/$PRIVATE_DIR/usr/local/lib64" ./configure --prefix=$PRIVATE_MACPORTS --without-startupitems
 if [ $? -ne 0 ]; then
     echo "Error: configure failed. Please see the above for errors"
     exit 1
