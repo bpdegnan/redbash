@@ -252,17 +252,26 @@ fi
 #now on to macports
 
 cd $PRIVATE_TMP
+latesttagmacports=$(git ls-remote --tags https://github.com/macports/macports-base.git | awk -F/ '/\/v[0-9]+\.[0-9]+\.[0-9]+$/{print $NF}' | sort -V | tail -n1)
 if [ -d "macports-base" ]; then
   echo "Directory macports-base already exists. Skipping git clone."
   cd macports-base
   git fetch  # Update remote refs
-  # git checkout v2.10.2
+  if [[ -z "$latesttagmacports" ]]; then
+    echo "No valid tag found. Staying on the current branch."
+  else
+    git checkout "$latesttagmacports"
+  fi
 else
   git clone https://github.com/macports/macports-base.git
   cd macports-base
-  git checkout v2.10.2
+  git fetch  # Update remote refs
+  if [[ -z "$latesttagmacports" ]]; then
+    echo "No valid tag found. Staying on the current branch."
+  else
+    git checkout "$latesttagmacports"
+  fi
 fi
-
 
 
 # Run configure and check its exit status
