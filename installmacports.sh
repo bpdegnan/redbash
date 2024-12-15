@@ -256,7 +256,7 @@ if [ -d "macports-base" ]; then
   echo "Directory macports-base already exists. Skipping git clone."
   cd macports-base
   git fetch  # Update remote refs
-  git checkout v2.10.2
+  # git checkout v2.10.2
 else
   git clone https://github.com/macports/macports-base.git
   cd macports-base
@@ -266,7 +266,7 @@ fi
 
 
 # Run configure and check its exit status
-CFLAGS="-I/$PRIVATE_DIR/usr/local/include -I/$PRIVATE_DIR/usr/local/include/curl" LDFLAGS="-L/$PRIVATE_DIR/usr/local/lib -L/$PRIVATE_DIR/usr/local/lib64" ./configure --prefix=$PRIVATE_MACPORTS --without-startupitems
+CFLAGS="-I/$PRIVATE_DIR/usr/local/include -I/$PRIVATE_DIR/usr/local/include/curl" LDFLAGS="-L/$PRIVATE_DIR/usr/local/lib -L/$PRIVATE_DIR/usr/local/lib64" ./configure --prefix=$PRIVATE_MACPORTS --without-startupitems --with-mtree=$PRIVATE_DIR/bin/mtree
 if [ $? -ne 0 ]; then
     echo "Error: configure failed. Please see the above for errors"
     exit 1
