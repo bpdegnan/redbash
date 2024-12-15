@@ -201,7 +201,8 @@ else
 fi
 
 #see if we already built libcrypto.a for macports.  If not, we run the code
-if [[ ! -f "$PRIVATE_DIR/usr/local/libs/libcrypto.a" || ! -f "$PRIVATE_DIR/usr/local/libs64/libcrypto.a" ]]; then
+#if [[ ! -f "$PRIVATE_DIR/usr/local/libs/libcrypto.a" || ! -f "$PRIVATE_DIR/usr/local/libs64/libcrypto.a" ]]; then
+if [[ ! -f "$PRIVATE_DIR/usr/local/libs/libcrypto.a" && ! -f "$PRIVATE_DIR/usr/local/libs64/libcrypto.a" ]]; then
     cd $SCRIPT_DIR/src/openssl
     TAR_FILE=$(ls *.tar.gz *.tgz 2>/dev/null | head -n 1)
     if [ -z "$TAR_FILE" ]; then
