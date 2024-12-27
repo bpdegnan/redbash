@@ -279,6 +279,35 @@ if [ $? -ne 0 ]; then
     echo "Error: configure failed. Please see the above for errors"
     exit 1
 fi
+#START PATCH FOR uname=root
+#before the make, fix  uname=root gname=admin in a few files
+#this is basically pasting in a different script I wrote.  This *sometimes* comes up
+# as an issue
+USER=$(whoami)
+GROUP=$(groups | awk '{print $1}')
+# Ensure we're starting in the correct directory
+START_DIR=$(pwd)
+# Navigate to the doc directory
+if [ ! -d "doc" ]; then
+  echo "doc directory not found. Exiting."
+  exit 1
+fi
+cd doc || exit 1
+# Files to modify
+FILES=("base.mtree" "prefix.mtree")
+
+# Loop through each file and perform the replacement
+for FILE in "${FILES[@]}"; do
+  if [ -f "$FILE" ]; then
+    sed -i.bak "s/uname=root gname=admin/uname=$USER gname=$GROUP/g" "$FILE"
+    echo "Updated $FILE. Backup created as $FILE.bak"
+  else
+    echo "File $FILE not found. Skipping."
+  fi
+done
+# Return to the starting directory
+cd "$START_DIR" || exit 1
+#END PATCH FOR uname=root
 
 # Run make and check its exit status
 make
