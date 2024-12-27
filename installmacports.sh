@@ -274,7 +274,7 @@ fi
 
 
 # Run configure and check its exit status
-CFLAGS="-I/$PRIVATE_DIR/usr/local/include -I/$PRIVATE_DIR/usr/local/include/curl" LDFLAGS="-L/$PRIVATE_DIR/usr/local/lib -L/$PRIVATE_DIR/usr/local/lib64" ./configure --with-no-root-privileges --prefix=$PRIVATE_MACPORTS --with-unsupported-prefix=$PRIVATE_MACPORTS --without-startupitems --with-mtree=$PRIVATE_DIR/bin/mtree
+CFLAGS="-I/$PRIVATE_DIR/usr/local/include -I/$PRIVATE_DIR/usr/local/include/curl" LDFLAGS="-L/$PRIVATE_DIR/usr/local/lib -L/$PRIVATE_DIR/usr/local/lib64" ./configure --with-no-root-privileges --prefix=$PRIVATE_MACPORTS --with-unsupported-prefix=$PRIVATE_MACPORTS --without-startupitems --with-mtree=$PRIVATE_DIR/bin/mtree --with-install-user=$USER --with-install-group=$USER --with-macports-user=$USER 
 if [ $? -ne 0 ]; then
     echo "Error: configure failed. Please see the above for errors"
     exit 1
