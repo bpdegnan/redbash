@@ -328,6 +328,14 @@ mkdir -p "$PRIVATE_MACPORTS/bin"
 mkdir -p "$PRIVATE_MACPORTS/sbin"
 mkdir -p "$PRIVATE_MACPORTS/share/man"
 
+# Update the macports.conf to not sanitize LD_LIBRARY_PATH
+portconffile="$PRIVATE_MACPORTS/etc/macports/macports.conf"
+if [[ -f "$portconffile" ]]; then
+    sed -i '/^#extra_env/a\extra_env LD_LIBRARY_PATH LIBRARY_PATH' "$portconffile"
+else
+    echo "Error: File $portconffile does not exist."
+    exit 1
+fi
 # Check which shell is being used
 shell_config=""
 if [ -n "$BASH_VERSION" ]; then
@@ -337,12 +345,28 @@ elif [ -n "$ZSH_VERSION" ]; then
 fi
 
 # Add $PRIVATE_MACPORTS/bin and $PRIVATE_MACPORTS/sbin to PATH if not already there
+#if ! grep -q "export PATH=\"$PRIVATE_MACPORTS/bin:$PRIVATE_MACPORTS/sbin:\$PATH\"" "$shell_config"; then
+#    echo "export PATH=\"$PRIVATE_MACPORTS/bin:$PRIVATE_MACPORTS/sbin:\$PATH\"" >> "$shell_config"
+#    echo "Added $PRIVATE_MACPORTS/bin and $PRIVATE_MACPORTS/sbin to PATH in $shell_config"
+#else
+#    echo "$PRIVATE_MACPORTS/bin and $PRIVATE_MACPORTS/sbin are already in your PATH."
+#fi
+
+# Trying a smarter way.  I want to put macports paths first
+# Add $PRIVATE_MACPORTS/bin and $PRIVATE_MACPORTS/sbin to PATH if not already there
 if ! grep -q "export PATH=\"$PRIVATE_MACPORTS/bin:$PRIVATE_MACPORTS/sbin:\$PATH\"" "$shell_config"; then
-    echo "export PATH=\"$PRIVATE_MACPORTS/bin:$PRIVATE_MACPORTS/sbin:\$PATH\"" >> "$shell_config"
+    # Insert the line before the first PATH-related line or at the beginning if no PATH-related lines exist
+    if grep -q "PATH=" "$shell_config"; then
+        sed -i "/PATH=/i export PATH=\"$PRIVATE_MACPORTS/bin:$PRIVATE_MACPORTS/sbin:\$PATH\"" "$shell_config"
+    else
+        # No PATH-related lines found, append at the top
+        sed -i "1i export PATH=\"$PRIVATE_MACPORTS/bin:$PRIVATE_MACPORTS/sbin:\$PATH\"" "$shell_config"
+    fi
     echo "Added $PRIVATE_MACPORTS/bin and $PRIVATE_MACPORTS/sbin to PATH in $shell_config"
 else
     echo "$PRIVATE_MACPORTS/bin and $PRIVATE_MACPORTS/sbin are already in your PATH."
 fi
+
 
 # Add $PRIVATE_MACPORTS/share/man to MANPATH if not already there
 if ! grep -q "export MANPATH=\"$PRIVATE_MACPORTS/share/man:\$MANPATH\"" "$shell_config"; then
