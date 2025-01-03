@@ -44,6 +44,36 @@ else
     make install
 fi
 
+if command -v help2man >/dev/null 2>&1; then
+    echo "help2man found"
+else
+    echo "help2man is not installed"
+    cd $SCRIPT_DIR/src/help2man
+    TAR_FILE=$(ls *.tar.gz *.tgz 2>/dev/null | head -n 1)
+    if [ -z "$TAR_FILE" ]; then
+        echo "Error: No tar file found."
+        exit 1
+    fi
+    tar zxvf $TAR_FILE
+    if [[ "$TAR_FILE" == *.tar.gz ]]; then
+       DIR_NAME=$(basename "$TAR_FILE" .tar.gz)
+    elif [[ "$TAR_FILE" == *.tgz ]]; then
+        DIR_NAME=$(basename "$TAR_FILE" .tgz)
+    else
+    echo "Unsupported file format. Only .tar.gz and .tgz are supported."
+        exit 1
+    fi
+    cd "$DIR_NAME"    
+    
+    ./configure --prefix=$PRIVATE_DIR
+    make
+    if [ $? -ne 0 ]; then
+        echo "Error: make help2man failed. "
+        exit 1
+    fi
+    make install
+fi
+
 #I need autoconf to make automake
 if command -v autoconf >/dev/null 2>&1; then
     echo "autoconf found"
@@ -136,35 +166,6 @@ else
     make install
 fi
 
-if command -v help2man >/dev/null 2>&1; then
-    echo "help2man found"
-else
-    echo "help2man is not installed"
-    cd $SCRIPT_DIR/src/help2man
-    TAR_FILE=$(ls *.tar.gz *.tgz 2>/dev/null | head -n 1)
-    if [ -z "$TAR_FILE" ]; then
-        echo "Error: No tar file found."
-        exit 1
-    fi
-    tar zxvf $TAR_FILE
-    if [[ "$TAR_FILE" == *.tar.gz ]]; then
-       DIR_NAME=$(basename "$TAR_FILE" .tar.gz)
-    elif [[ "$TAR_FILE" == *.tgz ]]; then
-        DIR_NAME=$(basename "$TAR_FILE" .tgz)
-    else
-    echo "Unsupported file format. Only .tar.gz and .tgz are supported."
-        exit 1
-    fi
-    cd "$DIR_NAME"    
-    
-    ./configure --prefix=$PRIVATE_DIR
-    make
-    if [ $? -ne 0 ]; then
-        echo "Error: make help2man failed. "
-        exit 1
-    fi
-    make install
-fi
 
 if command -v curl-config >/dev/null 2>&1; then
     echo "curl-config found"
