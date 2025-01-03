@@ -136,6 +136,35 @@ else
     make install
 fi
 
+if command -v help2man >/dev/null 2>&1; then
+    echo "help2man found"
+else
+    echo "help2man is not installed"
+    cd $SCRIPT_DIR/src/help2man
+    TAR_FILE=$(ls *.tar.gz *.tgz 2>/dev/null | head -n 1)
+    if [ -z "$TAR_FILE" ]; then
+        echo "Error: No tar file found."
+        exit 1
+    fi
+    tar zxvf $TAR_FILE
+    if [[ "$TAR_FILE" == *.tar.gz ]]; then
+       DIR_NAME=$(basename "$TAR_FILE" .tar.gz)
+    elif [[ "$TAR_FILE" == *.tgz ]]; then
+        DIR_NAME=$(basename "$TAR_FILE" .tgz)
+    else
+    echo "Unsupported file format. Only .tar.gz and .tgz are supported."
+        exit 1
+    fi
+    cd "$DIR_NAME"    
+    
+    ./configure --prefix=$PRIVATE_DIR
+    make
+    if [ $? -ne 0 ]; then
+        echo "Error: make help2man failed. "
+        exit 1
+    fi
+    make install
+fi
 
 if command -v curl-config >/dev/null 2>&1; then
     echo "curl-config found"
@@ -336,6 +365,9 @@ else
     echo "Error: File $portconffile does not exist."
     exit 1
 fi
+
+
+
 # Check which shell is being used
 shell_config=""
 if [ -n "$BASH_VERSION" ]; then
@@ -366,6 +398,22 @@ if ! grep -q "export PATH=\"$PRIVATE_MACPORTS/bin:$PRIVATE_MACPORTS/sbin:\$PATH\
 else
     echo "$PRIVATE_MACPORTS/bin and $PRIVATE_MACPORTS/sbin are already in your PATH."
 fi
+
+# Add $PRIVATE_MACPORTS/lib to LD_LIBRARY_PATH if not already there
+#I have a few instances, I probably could figure out how to make a function
+if ! grep -q "export LD_LIBRARY_PATH=\"$PRIVATE_MACPORTS/lib:\$LD_LIBRARY_PATH\"" "$shell_config"; then
+    # Insert the line before the first LD_LIBRARY_PATH-related line or at the beginning if no such lines exist
+    if grep -q "LD_LIBRARY_PATH=" "$shell_config"; then
+        sed -i "/LD_LIBRARY_PATH=/i export LD_LIBRARY_PATH=\"$PRIVATE_MACPORTS/lib:\$LD_LIBRARY_PATH\"" "$shell_config"
+    else
+        # No LD_LIBRARY_PATH-related lines found, append at the top
+        sed -i "1i export LD_LIBRARY_PATH=\"$PRIVATE_MACPORTS/lib:\$LD_LIBRARY_PATH\"" "$shell_config"
+    fi
+    echo "Added $PRIVATE_MACPORTS/lib to LD_LIBRARY_PATH in $shell_config"
+else
+    echo "$PRIVATE_MACPORTS/lib is already in your LD_LIBRARY_PATH."
+fi
+
 
 
 # Add $PRIVATE_MACPORTS/share/man to MANPATH if not already there
